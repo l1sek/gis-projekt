@@ -10,14 +10,17 @@ import pl.edu.pw.elka.gis.LGraph.core.process.action.AddEdgeAction;
 import pl.edu.pw.elka.gis.LGraph.core.process.action.AddNodeAction;
 import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidFileFormatException;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
  * Created by mmajewski on 2016-12-17.
  */
 public class FileActionListener extends RunnableActionListener<FileActionListener> {
+    private FileStreamFactory fileStreamFactory;
     private boolean saveNodeNames = true;
 
     public boolean isSaveNodeNames() {
@@ -28,25 +31,39 @@ public class FileActionListener extends RunnableActionListener<FileActionListene
         this.saveNodeNames = saveNodeNames;
     }
 
+    public FileActionListener() {
+        this(new FileStreamFactoryImpl());
+    }
+
+    public FileActionListener(FileStreamFactory fileStreamFactory) {
+        this.fileStreamFactory = fileStreamFactory;
+    }
+
     public void saveGraph(Graph graph, File file) throws IOException {
-        BufferedWriter fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8));
+        BufferedWriter fileWriter = new BufferedWriter(fileStreamFactory.fileWriterStream(file));
         List<GraphNode> sortedNodes = new ArrayList<>(graph.getNodeSet());
         Collections.sort(sortedNodes);
         for(GraphNode currentNode : sortedNodes){
             Set<GraphNode> neighbours = graph.findNeighbours(currentNode);
+            int written = 0;
             for(GraphNode potentialNeighbour : sortedNodes){
                 if(neighbours.contains(potentialNeighbour)){
-                    fileWriter.append("1, ");
+                    fileWriter.append("1");
                 }else{
-                    fileWriter.append("0, ");
+                    fileWriter.append("0");
+                }
+                ++written;
+                if(written < sortedNodes.size()){
+                    fileWriter.append(", ");
+                }else{
+                    fileWriter.append(System.lineSeparator());
                 }
             }
-            fileWriter.append(System.lineSeparator());
         }
         fileWriter.append(System.lineSeparator());
         if(saveNodeNames) {
             for (GraphNode currentNode : sortedNodes) {
-                fileWriter.append("#").append(currentNode.getName()).append(System.lineSeparator());
+                fileWriter.append("# ").append(currentNode.getName()).append(System.lineSeparator());
             }
             fileWriter.append(System.lineSeparator());
         }
@@ -58,7 +75,7 @@ public class FileActionListener extends RunnableActionListener<FileActionListene
         Map<Integer, List<Integer>> nodes = new HashMap<>();
         Map<Integer, String> names = new HashMap<>();
 
-        BufferedReader fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+        BufferedReader fileReader = new BufferedReader(fileStreamFactory.fileReaderStream(file));
         String line;
         int lineCount = 0;
         int rowCount = 0;
@@ -111,7 +128,7 @@ public class FileActionListener extends RunnableActionListener<FileActionListene
             line = line.trim();
 
             ++lineCount;
-            if(line.matches("^#.*")){
+            if(line.matches("^[^#].*")){
                 throw new InvalidFileFormatException("Error at line "+lineCount);
             }
             if(line.isEmpty()){

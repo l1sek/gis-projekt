@@ -7,7 +7,7 @@ import pl.edu.pw.elka.gis.LGraph.core.model.GraphNode;
 /**
  * Created by mmajewski on 2016-12-17.
  */
-public class RemoveNodeAction extends NodeAction<GraphActionListener> {
+public class RemoveNodeAction extends NodeAction {
     public RemoveNodeAction(GraphNode graphNode) {
         super(graphNode);
     }

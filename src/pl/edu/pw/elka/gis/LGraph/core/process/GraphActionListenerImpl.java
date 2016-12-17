@@ -8,7 +8,7 @@ import pl.edu.pw.elka.gis.LGraph.core.model.GraphNode;
 /**
  * Created by mmajewski on 2016-12-17.
  */
-public class GraphActionListenerImpl extends RunnableActionListener<GraphActionListenerImpl> {
+public class GraphActionListenerImpl extends RunnableActionListener<GraphActionListener> implements GraphActionListener {
 
     private Graph graph = new Graph();
     private Graph lineGraph = new Graph();

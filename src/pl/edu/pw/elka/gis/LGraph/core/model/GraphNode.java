@@ -22,4 +22,16 @@ public class GraphNode implements Comparable<GraphNode> {
     public int compareTo(GraphNode o) {
         return name.compareTo(o.name);
     }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)return true;
+        if(!(obj instanceof GraphNode)) return false;
+        return name.equals(((GraphNode) obj).name);
+    }
 }

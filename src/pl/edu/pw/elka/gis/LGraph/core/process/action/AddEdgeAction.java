@@ -7,7 +7,7 @@ import pl.edu.pw.elka.gis.LGraph.core.model.GraphEdge;
 /**
  * Created by mmajewski on 2016-12-17.
  */
-public class AddEdgeAction extends EdgeAction<GraphActionListener> {
+public class AddEdgeAction extends EdgeAction {
     public AddEdgeAction(GraphEdge graphEdge) {
         super(graphEdge);
     }
