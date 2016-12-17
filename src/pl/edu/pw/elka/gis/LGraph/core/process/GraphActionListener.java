@@ -104,8 +104,9 @@ public class GraphActionListener extends RunnableActionListener<GraphActionListe
 
     public void removeNode(GraphNode graphNode) {
         if(graph.findNode(graphNode.getName()) != null) {
-            graph.findEdgesToNode(graphNode).forEach(this::removeEdge);
-
+            for(GraphEdge edge : graph.findEdgesToNode(graphNode)){
+                this.removeEdge(edge);
+            }
             graph.removeNode(graphNode);
             graphView.removeNode(graphNode);
         }

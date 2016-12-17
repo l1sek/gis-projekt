@@ -1,7 +1,9 @@
 package pl.edu.pw.elka.gis.LGraph.persistance.action;
 
+import pl.edu.pw.elka.gis.LGraph.core.action.ActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.action.FileAction;
 import pl.edu.pw.elka.gis.LGraph.core.model.Graph;
+import pl.edu.pw.elka.gis.LGraph.core.process.GraphActionListener;
 import pl.edu.pw.elka.gis.LGraph.persistance.FileActionListener;
 import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidFileFormatException;
 
@@ -15,18 +17,20 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class LoadGraphAction extends FileAction<FileActionListener> {
     private Graph graph;
+    private ActionListener<GraphActionListener> graphActionListener;
     private Lock lock = new ReentrantLock();
     private Exception exception = null;
 
-    public LoadGraphAction(File file) {
+    public LoadGraphAction(File file, ActionListener<GraphActionListener> graphActionListener) {
         super(file);
+        this.graphActionListener = graphActionListener;
         lock.lock();
     }
 
     @Override
     public void apply(FileActionListener actionListener) {
         try {
-            graph = actionListener.loadGraph(getFile());
+            actionListener.loadGraph(getFile(), graphActionListener);
         } catch (IOException|InvalidFileFormatException e) {
             e.printStackTrace();
             exception = e;

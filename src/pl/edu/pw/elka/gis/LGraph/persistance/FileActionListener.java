@@ -13,7 +13,6 @@ import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidFileFormatExceptio
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by mmajewski on 2016-12-17.
@@ -31,7 +30,8 @@ public class FileActionListener extends RunnableActionListener<FileActionListene
 
     public void saveGraph(Graph graph, File file) throws IOException {
         BufferedWriter fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8));
-        List<GraphNode> sortedNodes = graph.getNodeSet().stream().sorted().collect(Collectors.toList());
+        List<GraphNode> sortedNodes = new ArrayList<>(graph.getNodeSet());
+        Collections.sort(sortedNodes);
         for(GraphNode currentNode : sortedNodes){
             Set<GraphNode> neighbours = graph.findNeighbours(currentNode);
             for(GraphNode potentialNeighbour : sortedNodes){
@@ -84,7 +84,7 @@ public class FileActionListener extends RunnableActionListener<FileActionListene
             if(rowCount == 0){
                 expectedNodes = nodeNeighbours.length;
                 for (int i = 0; i < expectedNodes; i++) {
-                    nodes.put(i, new ArrayList<>());
+                    nodes.put(i, new ArrayList<Integer>());
                     names.put(i, Integer.toString(i));
                 }
             }else if(nodeNeighbours.length != expectedNodes){

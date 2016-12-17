@@ -1,9 +1,7 @@
 package pl.edu.pw.elka.gis.LGraph.core.model;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by mmajewski on 2016-12-17.
@@ -24,7 +22,13 @@ public class Graph {
 
     public void removeNode(GraphNode graphNode){
         nodeSet.remove(graphNode);
-        edgeSet.removeIf(e -> e.getFirst().equals(graphNode) || e.getSecond().equals(graphNode));
+        Set<GraphEdge> toDelete = new HashSet<>();
+        for(GraphEdge edge : edgeSet){
+            if(edge.hasNode(graphNode)){
+                toDelete.add(edge);
+            }
+        }
+        edgeSet.removeAll(toDelete);
     }
 
     public void removeEdge(GraphEdge graphEdge){
@@ -40,14 +44,15 @@ public class Graph {
     }
 
     public Set<GraphNode> findNeighbours(GraphNode graphNode){
-        return edgeSet.parallelStream()
-                .filter(e -> e.hasNode(graphNode))
-                .map(e -> {
-                    if(e.getFirst().equals(graphNode)){
-                        return e.getSecond();
-                    }
-                    return e.getFirst();
-                }).collect(Collectors.toSet());
+        Set<GraphNode> neighbourSet = new HashSet<>();
+        for(GraphEdge edge : edgeSet){
+            if(edge.getFirst().equals(graphNode)){
+                neighbourSet.add(edge.getSecond());
+            }else if(edge.getSecond().equals(graphNode)){
+                neighbourSet.add(edge.getFirst());
+            }
+        }
+        return neighbourSet;
     }
 
     public GraphNode findNode(String name){
@@ -61,14 +66,21 @@ public class Graph {
     }
 
     public GraphEdge findEdge(GraphNode node1, GraphNode node2){
-        Optional<GraphEdge> graphEdge = edgeSet.parallelStream().filter(e -> e.hasNode(node1) && e.hasNode(node2)).findAny();
-        if(graphEdge.isPresent()) return graphEdge.get();
+        for(GraphEdge edge : edgeSet){
+            if(edge.hasNode(node1) && edge.hasNode(node2)){
+                return edge;
+            }
+        }
         return null;
     }
 
     public Set<GraphEdge> findEdgesToNode(GraphNode graphNode){
-        return edgeSet.parallelStream()
-                .filter(e -> e.hasNode(graphNode))
-                .collect(Collectors.toSet());
+        Set<GraphEdge> nodeEdgeSet = new HashSet<>();
+        for(GraphEdge edge : edgeSet){
+            if(edge.hasNode(graphNode)){
+                nodeEdgeSet.add(edge);
+            }
+        }
+        return nodeEdgeSet;
     }
 }
