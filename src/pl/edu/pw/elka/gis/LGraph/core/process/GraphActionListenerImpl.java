@@ -1,6 +1,6 @@
 package pl.edu.pw.elka.gis.LGraph.core.process;
 
-import pl.edu.pw.elka.gis.LGraph.core.action.ViewActionListener;
+import pl.edu.pw.elka.gis.LGraph.core.action.GraphActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.model.Graph;
 import pl.edu.pw.elka.gis.LGraph.core.model.GraphEdge;
 import pl.edu.pw.elka.gis.LGraph.core.model.GraphNode;
@@ -8,21 +8,29 @@ import pl.edu.pw.elka.gis.LGraph.core.model.GraphNode;
 /**
  * Created by mmajewski on 2016-12-17.
  */
-public class GraphActionListener extends RunnableActionListener<GraphActionListener> {
+public class GraphActionListenerImpl extends RunnableActionListener<GraphActionListenerImpl> {
 
     private Graph graph = new Graph();
     private Graph lineGraph = new Graph();
-    private ViewActionListener graphView;
-    private ViewActionListener lineView;
+    private GraphActionListener graphView;
+    private GraphActionListener lineView;
 
-    public GraphActionListener() {
+    public GraphActionListenerImpl() {
         this.graphView = new DummyViewActionListener();
         this.lineView = new DummyViewActionListener();
     }
 
-    public GraphActionListener(ViewActionListener graphView, ViewActionListener lineView) {
+    public GraphActionListenerImpl(GraphActionListener graphView, GraphActionListener lineView) {
         this.graphView = graphView;
         this.lineView = lineView;
+    }
+
+    public Graph getGraph() {
+        return graph;
+    }
+
+    public Graph getLineGraph() {
+        return lineGraph;
     }
 
     private String lineNodeName(GraphNode graphNode1, GraphNode graphNode2) {

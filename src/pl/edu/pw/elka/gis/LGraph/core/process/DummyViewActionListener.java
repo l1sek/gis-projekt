@@ -1,19 +1,14 @@
 package pl.edu.pw.elka.gis.LGraph.core.process;
 
 import pl.edu.pw.elka.gis.LGraph.core.action.Action;
-import pl.edu.pw.elka.gis.LGraph.core.action.ViewActionListener;
-import pl.edu.pw.elka.gis.LGraph.core.model.Graph;
+import pl.edu.pw.elka.gis.LGraph.core.action.GraphActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.model.GraphEdge;
 import pl.edu.pw.elka.gis.LGraph.core.model.GraphNode;
 
 /**
  * Created by mmajewski on 2016-12-17.
  */
-public class DummyViewActionListener implements ViewActionListener{
-    @Override
-    public void registerAction(Action action) {
-
-    }
+public class DummyViewActionListener implements GraphActionListener {
 
     @Override
     public void addNode(GraphNode graphNode) {
@@ -36,7 +31,7 @@ public class DummyViewActionListener implements ViewActionListener{
     }
 
     @Override
-    public void refresh(Graph graph) {
+    public void registerAction(Action action) {
 
     }
 }

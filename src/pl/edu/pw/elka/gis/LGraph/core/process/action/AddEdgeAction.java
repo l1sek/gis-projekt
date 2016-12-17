@@ -1,8 +1,8 @@
 package pl.edu.pw.elka.gis.LGraph.core.process.action;
 
 import pl.edu.pw.elka.gis.LGraph.core.action.EdgeAction;
+import pl.edu.pw.elka.gis.LGraph.core.action.GraphActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.model.GraphEdge;
-import pl.edu.pw.elka.gis.LGraph.core.process.GraphActionListener;
 
 /**
  * Created by mmajewski on 2016-12-17.

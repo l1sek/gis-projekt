@@ -2,8 +2,8 @@ package pl.edu.pw.elka.gis.LGraph.persistance.action;
 
 import pl.edu.pw.elka.gis.LGraph.core.action.ActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.action.FileAction;
+import pl.edu.pw.elka.gis.LGraph.core.action.GraphActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.model.Graph;
-import pl.edu.pw.elka.gis.LGraph.core.process.GraphActionListener;
 import pl.edu.pw.elka.gis.LGraph.persistance.FileActionListener;
 import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidFileFormatException;
 

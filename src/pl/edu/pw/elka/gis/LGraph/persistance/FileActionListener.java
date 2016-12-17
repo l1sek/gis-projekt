@@ -1,10 +1,10 @@
 package pl.edu.pw.elka.gis.LGraph.persistance;
 
 import pl.edu.pw.elka.gis.LGraph.core.action.ActionListener;
+import pl.edu.pw.elka.gis.LGraph.core.action.GraphActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.model.Graph;
 import pl.edu.pw.elka.gis.LGraph.core.model.GraphEdge;
 import pl.edu.pw.elka.gis.LGraph.core.model.GraphNode;
-import pl.edu.pw.elka.gis.LGraph.core.process.GraphActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.process.RunnableActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.process.action.AddEdgeAction;
 import pl.edu.pw.elka.gis.LGraph.core.process.action.AddNodeAction;
