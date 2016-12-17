@@ -1,20 +1,15 @@
 package pl.edu.pw.elka.gis.LGraph.core.process;
 
-import pl.edu.pw.elka.gis.LGraph.core.action.Action;
-import pl.edu.pw.elka.gis.LGraph.core.action.ActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.action.ViewActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.model.Graph;
 import pl.edu.pw.elka.gis.LGraph.core.model.GraphEdge;
 import pl.edu.pw.elka.gis.LGraph.core.model.GraphNode;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
 /**
  * Created by mmajewski on 2016-12-17.
  */
-public class GraphActionListener implements ActionListener<GraphActionListener>, Runnable {
-    private BlockingQueue<Action<GraphActionListener>> actionQueue = new ArrayBlockingQueue<>(100);
+public class GraphActionListener extends RunnableActionListener<GraphActionListener> {
+
     private Graph graph = new Graph();
     private Graph lineGraph = new Graph();
     private ViewActionListener graphView;
@@ -41,11 +36,6 @@ public class GraphActionListener implements ActionListener<GraphActionListener>,
         return lineNodeName(graphEdge.getFirst(), graphEdge.getSecond());
     }
 
-    @Override
-    public void registerAction(Action<GraphActionListener> action) {
-        actionQueue.add(action);
-    }
-
     public void addNode(GraphNode graphNode) {
         if(graph.findNode(graphNode.getName()) == null) {
             graph.addNode(graphNode);
@@ -62,7 +52,7 @@ public class GraphActionListener implements ActionListener<GraphActionListener>,
             lineGraph.addNode(lineNode);
             lineView.addNode(lineNode);
 
-            for (GraphNode neighbour : graph.getNeighbours(graphEdge.getFirst())) {
+            for (GraphNode neighbour : graph.findNeighbours(graphEdge.getFirst())) {
                 if (!neighbour.equals(graphEdge.getSecond())) {
                     GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getFirst(), neighbour));
                     GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
@@ -71,7 +61,7 @@ public class GraphActionListener implements ActionListener<GraphActionListener>,
                 }
             }
 
-            for (GraphNode neighbour : graph.getNeighbours(graphEdge.getSecond())) {
+            for (GraphNode neighbour : graph.findNeighbours(graphEdge.getSecond())) {
                 if (!neighbour.equals(graphEdge.getFirst())) {
                     GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getSecond(), neighbour));
                     GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
@@ -89,7 +79,7 @@ public class GraphActionListener implements ActionListener<GraphActionListener>,
 
             GraphNode lineNode = new GraphNode(lineNodeName(graphEdge));
 
-            for (GraphNode neighbour : graph.getNeighbours(graphEdge.getFirst())) {
+            for (GraphNode neighbour : graph.findNeighbours(graphEdge.getFirst())) {
                 if (!neighbour.equals(graphEdge.getSecond())) {
                     GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getFirst(), neighbour));
                     GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
@@ -98,7 +88,7 @@ public class GraphActionListener implements ActionListener<GraphActionListener>,
                 }
             }
 
-            for (GraphNode neighbour : graph.getNeighbours(graphEdge.getSecond())) {
+            for (GraphNode neighbour : graph.findNeighbours(graphEdge.getSecond())) {
                 if (!neighbour.equals(graphEdge.getFirst())) {
                     GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getSecond(), neighbour));
                     GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
@@ -118,18 +108,6 @@ public class GraphActionListener implements ActionListener<GraphActionListener>,
 
             graph.removeNode(graphNode);
             graphView.removeNode(graphNode);
-        }
-    }
-
-    @Override
-    public void run() {
-        try {
-            while (true) {
-                Action<GraphActionListener> action = actionQueue.take();
-                action.apply(this);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -18,7 +18,7 @@ public class Graph {
 
     public void addEdge(GraphEdge graphEdge){
         nodeSet.add(graphEdge.getFirst());
-        nodeSet.add(graphEdge.getFirst());
+        nodeSet.add(graphEdge.getSecond());
         edgeSet.add(graphEdge);
     }
 
@@ -39,7 +39,7 @@ public class Graph {
         return edgeSet;
     }
 
-    public Set<GraphNode> getNeighbours(GraphNode graphNode){
+    public Set<GraphNode> findNeighbours(GraphNode graphNode){
         return edgeSet.parallelStream()
                 .filter(e -> e.hasNode(graphNode))
                 .map(e -> {
