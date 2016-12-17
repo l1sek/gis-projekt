@@ -1,6 +1,7 @@
 package pl.edu.pw.elka.gis.LGraph.core.model;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -52,6 +53,16 @@ public class Graph {
     public GraphNode findNode(String name){
         GraphNode graphNode = new GraphNode(name);
         if(nodeSet.contains(graphNode)) return graphNode;
+        return null;
+    }
+
+    public GraphEdge findEdge(GraphEdge graphEdge){
+        return findEdge(graphEdge.getFirst(), graphEdge.getSecond());
+    }
+
+    public GraphEdge findEdge(GraphNode node1, GraphNode node2){
+        Optional<GraphEdge> graphEdge = edgeSet.parallelStream().filter(e -> e.hasNode(node1) && e.hasNode(node2)).findAny();
+        if(graphEdge.isPresent()) return graphEdge.get();
         return null;
     }
 

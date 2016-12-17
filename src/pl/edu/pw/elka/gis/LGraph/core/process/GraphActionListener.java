@@ -47,70 +47,78 @@ public class GraphActionListener implements ActionListener<GraphActionListener>,
     }
 
     public void addNode(GraphNode graphNode) {
-        graph.addNode(graphNode);
-        graphView.addNode(graphNode);
+        if(graph.findNode(graphNode.getName()) == null) {
+            graph.addNode(graphNode);
+            graphView.addNode(graphNode);
+        }
     }
 
     public void addEdge(GraphEdge graphEdge) {
-        graph.addEdge(graphEdge);
-        graphView.addEdge(graphEdge);
+        if (graph.findEdge(graphEdge) == null) {
+            graph.addEdge(graphEdge);
+            graphView.addEdge(graphEdge);
 
-        GraphNode lineNode = new GraphNode(lineNodeName(graphEdge));
-        lineGraph.addNode(lineNode);
-        lineView.addNode(lineNode);
+            GraphNode lineNode = new GraphNode(lineNodeName(graphEdge));
+            lineGraph.addNode(lineNode);
+            lineView.addNode(lineNode);
 
-        for (GraphNode neighbour : graph.getNeighbours(graphEdge.getFirst())) {
-            if (!neighbour.equals(graphEdge.getSecond())) {
-                GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getFirst(), neighbour));
-                GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
-                lineGraph.addEdge(lineEdge);
-                lineView.addEdge(lineEdge);
+            for (GraphNode neighbour : graph.getNeighbours(graphEdge.getFirst())) {
+                if (!neighbour.equals(graphEdge.getSecond())) {
+                    GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getFirst(), neighbour));
+                    GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
+                    lineGraph.addEdge(lineEdge);
+                    lineView.addEdge(lineEdge);
+                }
             }
-        }
 
-        for (GraphNode neighbour : graph.getNeighbours(graphEdge.getSecond())) {
-            if (!neighbour.equals(graphEdge.getFirst())) {
-                GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getSecond(), neighbour));
-                GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
-                lineGraph.addEdge(lineEdge);
-                lineView.addEdge(lineEdge);
+            for (GraphNode neighbour : graph.getNeighbours(graphEdge.getSecond())) {
+                if (!neighbour.equals(graphEdge.getFirst())) {
+                    GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getSecond(), neighbour));
+                    GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
+                    lineGraph.addEdge(lineEdge);
+                    lineView.addEdge(lineEdge);
+                }
             }
         }
     }
 
     public void removeEdge(GraphEdge graphEdge) {
-        graph.removeEdge(graphEdge);
-        graphView.removeEdge(graphEdge);
+        if(graph.findEdge(graphEdge) != null) {
+            graph.removeEdge(graphEdge);
+            graphView.removeEdge(graphEdge);
 
-        GraphNode lineNode = new GraphNode(lineNodeName(graphEdge));
+            GraphNode lineNode = new GraphNode(lineNodeName(graphEdge));
 
-        for (GraphNode neighbour : graph.getNeighbours(graphEdge.getFirst())) {
-            if (!neighbour.equals(graphEdge.getSecond())) {
-                GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getFirst(), neighbour));
-                GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
-                lineGraph.removeEdge(lineEdge);
-                lineView.removeEdge(lineEdge);
+            for (GraphNode neighbour : graph.getNeighbours(graphEdge.getFirst())) {
+                if (!neighbour.equals(graphEdge.getSecond())) {
+                    GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getFirst(), neighbour));
+                    GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
+                    lineGraph.removeEdge(lineEdge);
+                    lineView.removeEdge(lineEdge);
+                }
             }
-        }
 
-        for (GraphNode neighbour : graph.getNeighbours(graphEdge.getSecond())) {
-            if (!neighbour.equals(graphEdge.getFirst())) {
-                GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getSecond(), neighbour));
-                GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
-                lineGraph.removeEdge(lineEdge);
-                lineView.removeEdge(lineEdge);
+            for (GraphNode neighbour : graph.getNeighbours(graphEdge.getSecond())) {
+                if (!neighbour.equals(graphEdge.getFirst())) {
+                    GraphNode lineNeighbour = new GraphNode(lineNodeName(graphEdge.getSecond(), neighbour));
+                    GraphEdge lineEdge = new GraphEdge(lineNeighbour, lineNode);
+                    lineGraph.removeEdge(lineEdge);
+                    lineView.removeEdge(lineEdge);
+                }
             }
-        }
 
-        lineGraph.removeNode(lineNode);
-        lineView.removeNode(lineNode);
+            lineGraph.removeNode(lineNode);
+            lineView.removeNode(lineNode);
+        }
     }
 
     public void removeNode(GraphNode graphNode) {
-        graph.findEdgesToNode(graphNode).forEach(this::removeEdge);
+        if(graph.findNode(graphNode.getName()) != null) {
+            graph.findEdgesToNode(graphNode).forEach(this::removeEdge);
 
-        graph.removeNode(graphNode);
-        graphView.removeNode(graphNode);
+            graph.removeNode(graphNode);
+            graphView.removeNode(graphNode);
+        }
     }
 
     @Override
