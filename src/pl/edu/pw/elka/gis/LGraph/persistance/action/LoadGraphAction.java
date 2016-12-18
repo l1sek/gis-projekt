@@ -6,6 +6,7 @@ import pl.edu.pw.elka.gis.LGraph.core.action.GraphActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.model.Graph;
 import pl.edu.pw.elka.gis.LGraph.persistance.FileActionListener;
 import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidFileFormatException;
+import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidGraphStructureException;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class LoadGraphAction extends FileAction<FileActionListener> {
     public void apply(FileActionListener actionListener) {
         try {
             actionListener.loadGraph(getFile(), graphActionListener);
-        } catch (IOException|InvalidFileFormatException e) {
+        } catch (IOException|InvalidFileFormatException|InvalidGraphStructureException e) {
             e.printStackTrace();
             exception = e;
         } finally {

@@ -9,11 +9,13 @@ import pl.edu.pw.elka.gis.LGraph.core.process.RunnableActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.process.action.AddEdgeAction;
 import pl.edu.pw.elka.gis.LGraph.core.process.action.AddNodeAction;
 import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidFileFormatException;
+import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidGraphStructureException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.*;
 
 /**
@@ -71,7 +73,7 @@ public class FileActionListener extends RunnableActionListener<FileActionListene
         fileWriter.close();
     }
 
-    public void loadGraph(File file, ActionListener<GraphActionListener> actionListener) throws IOException, InvalidFileFormatException {
+    public void loadGraph(File file, ActionListener<GraphActionListener> actionListener) throws IOException, InvalidFileFormatException, InvalidGraphStructureException {
         Map<Integer, List<Integer>> nodes = new HashMap<>();
         Map<Integer, String> names = new HashMap<>();
 
@@ -141,6 +143,20 @@ public class FileActionListener extends RunnableActionListener<FileActionListene
         }
 
         fileReader.close();
+
+        //validate graph
+        for(Integer node : nodes.keySet()){
+            if(nodes.get(node).contains(node)){
+                throw new InvalidGraphStructureException(MessageFormat.format("Loop on node {0}", names.get(node)));
+            }
+            for(Integer neigh : nodes.get(node)){
+                if(!nodes.get(neigh).contains(node)){
+                    throw new InvalidGraphStructureException(MessageFormat.format(
+                            "Missing connection between {0} and {0}",
+                            names.get(neigh), names.get(node)));
+                }
+            }
+        }
 
         //construct graph
         Map<Integer, GraphNode> graphNodeMap = new HashMap<>();
