@@ -25,10 +25,12 @@ public class GraphActionListenerImpl extends RunnableActionListener<GraphActionL
         this.lineView = lineView;
     }
 
+    @Override
     public Graph getGraph() {
         return graph;
     }
 
+    @Override
     public Graph getLineGraph() {
         return lineGraph;
     }
@@ -44,6 +46,7 @@ public class GraphActionListenerImpl extends RunnableActionListener<GraphActionL
         return lineNodeName(graphEdge.getFirst(), graphEdge.getSecond());
     }
 
+    @Override
     public void addNode(GraphNode graphNode) {
         if(graph.findNode(graphNode.getName()) == null) {
             graph.addNode(graphNode);
@@ -51,6 +54,7 @@ public class GraphActionListenerImpl extends RunnableActionListener<GraphActionL
         }
     }
 
+    @Override
     public void addEdge(GraphEdge graphEdge) {
         if (graph.findEdge(graphEdge) == null) {
             graph.addEdge(graphEdge);
@@ -80,6 +84,7 @@ public class GraphActionListenerImpl extends RunnableActionListener<GraphActionL
         }
     }
 
+    @Override
     public void removeEdge(GraphEdge graphEdge) {
         if(graph.findEdge(graphEdge) != null) {
             graph.removeEdge(graphEdge);
@@ -110,6 +115,7 @@ public class GraphActionListenerImpl extends RunnableActionListener<GraphActionL
         }
     }
 
+    @Override
     public void removeNode(GraphNode graphNode) {
         if(graph.findNode(graphNode.getName()) != null) {
             for(GraphEdge edge : graph.findEdgesToNode(graphNode)){
@@ -117,6 +123,16 @@ public class GraphActionListenerImpl extends RunnableActionListener<GraphActionL
             }
             graph.removeNode(graphNode);
             graphView.removeNode(graphNode);
+        }
+    }
+
+    @Override
+    public void clear() {
+        for(GraphEdge edge : graph.getEdgeSet()){
+            removeEdge(edge);
+        }
+        for(GraphNode node : graph.getNodeSet()){
+            removeNode(node);
         }
     }
 }

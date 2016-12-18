@@ -1,8 +1,8 @@
-package pl.edu.pw.elka.gis.LGraph.persistance.action;
+package pl.edu.pw.elka.gis.LGraph.persistence.action;
 
 import pl.edu.pw.elka.gis.LGraph.core.action.FileAction;
 import pl.edu.pw.elka.gis.LGraph.core.model.Graph;
-import pl.edu.pw.elka.gis.LGraph.persistance.FileActionListener;
+import pl.edu.pw.elka.gis.LGraph.persistence.FileActionListener;
 
 import java.io.File;
 import java.io.IOException;

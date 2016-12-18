@@ -1,11 +1,11 @@
-package pl.edu.pw.elka.gis.LGraph.persistance;
+package pl.edu.pw.elka.gis.LGraph.persistence;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import pl.edu.pw.elka.gis.LGraph.core.process.GraphActionListenerImpl;
-import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidFileFormatException;
-import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidGraphStructureException;
+import pl.edu.pw.elka.gis.LGraph.persistence.exception.InvalidFileFormatException;
+import pl.edu.pw.elka.gis.LGraph.persistence.exception.InvalidGraphStructureException;
 
 import java.io.File;
 import java.io.IOException;

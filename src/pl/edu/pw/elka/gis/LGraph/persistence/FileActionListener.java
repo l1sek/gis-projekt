@@ -1,4 +1,4 @@
-package pl.edu.pw.elka.gis.LGraph.persistance;
+package pl.edu.pw.elka.gis.LGraph.persistence;
 
 import pl.edu.pw.elka.gis.LGraph.core.action.ActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.action.GraphActionListener;
@@ -8,8 +8,9 @@ import pl.edu.pw.elka.gis.LGraph.core.model.GraphNode;
 import pl.edu.pw.elka.gis.LGraph.core.process.RunnableActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.process.action.AddEdgeAction;
 import pl.edu.pw.elka.gis.LGraph.core.process.action.AddNodeAction;
-import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidFileFormatException;
-import pl.edu.pw.elka.gis.LGraph.persistance.exception.InvalidGraphStructureException;
+import pl.edu.pw.elka.gis.LGraph.core.process.action.ClearAction;
+import pl.edu.pw.elka.gis.LGraph.persistence.exception.InvalidFileFormatException;
+import pl.edu.pw.elka.gis.LGraph.persistence.exception.InvalidGraphStructureException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -157,6 +158,9 @@ public class FileActionListener extends RunnableActionListener<FileActionListene
                 }
             }
         }
+
+        //remove last graph
+        actionListener.registerAction(new ClearAction());
 
         //construct graph
         Map<Integer, GraphNode> graphNodeMap = new HashMap<>();

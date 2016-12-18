@@ -2,6 +2,7 @@ package pl.edu.pw.elka.gis.LGraph.core.process;
 
 import pl.edu.pw.elka.gis.LGraph.core.action.Action;
 import pl.edu.pw.elka.gis.LGraph.core.action.GraphActionListener;
+import pl.edu.pw.elka.gis.LGraph.core.model.Graph;
 import pl.edu.pw.elka.gis.LGraph.core.model.GraphEdge;
 import pl.edu.pw.elka.gis.LGraph.core.model.GraphNode;
 
@@ -27,6 +28,21 @@ public class DummyViewActionListener implements GraphActionListener {
 
     @Override
     public void removeEdge(GraphEdge graphEdge) {
+
+    }
+
+    @Override
+    public Graph getGraph() {
+        return null;
+    }
+
+    @Override
+    public Graph getLineGraph() {
+        return null;
+    }
+
+    @Override
+    public void clear() {
 
     }
 

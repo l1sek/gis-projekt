@@ -1,4 +1,4 @@
-package pl.edu.pw.elka.gis.LGraph.persistance;
+package pl.edu.pw.elka.gis.LGraph.persistence;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
