@@ -4,14 +4,15 @@ import pl.edu.pw.elka.gis.LGraph.core.action.GraphActionListener;
 import pl.edu.pw.elka.gis.LGraph.core.process.GraphActionListenerImpl;
 import pl.edu.pw.elka.gis.LGraph.persistence.FileActionListener;
 import pl.edu.pw.elka.gis.LGraph.view.MainWindow;
+import pl.edu.pw.elka.gis.LGraph.view.addons.GraphDrawing;
 
 /**
  * Main class which initialise all application.
  */
 public class LGraph {
     public static void main(String[] args) {
-        GraphActionListener graphView = null; //TODO implement original graph view with GraphStream
-        GraphActionListener lineGraphView = null; //TODO implement line graph view with GraphStream
+        GraphActionListener graphView = new GraphDrawing();
+        GraphActionListener lineGraphView = new GraphDrawing();
 
         /* This listener accepts following actions initiated by User:
          * -  pl.edu.pw.elka.gis.LGraph.core.process.action.AddEdgeAction
@@ -26,7 +27,6 @@ public class LGraph {
          */
         GraphActionListenerImpl userGraphActionListener = new GraphActionListenerImpl(graphView, lineGraphView);
 
-
         /* This listener accepts following actions initiated by User:
          * - pl.edu.pw.elka.gis.LGraph.persistence.action.LoadGraphAction
          * - pl.edu.pw.elka.gis.LGraph.persistence.action.SaveGraphAction
@@ -37,16 +37,14 @@ public class LGraph {
          */
         FileActionListener userFileActionListener = new FileActionListener();
 
-
         /* Spinning up background tasks.
          * Should be killed/interrupted when MainWindow gets closed.
          */
         Thread graphModificationThread = new Thread(userGraphActionListener);
         Thread persistenceThread = new Thread(userFileActionListener);
-        graphModificationThread.run();
-        persistenceThread.run();
+        graphModificationThread.start();
+        persistenceThread.start();
 
-
-        new MainWindow("LGraph");
+        new MainWindow(userGraphActionListener, userFileActionListener);
     }
 }

@@ -34,6 +34,14 @@ public class GraphActionListenerImpl extends RunnableActionListener<GraphActionL
     public Graph getLineGraph() {
         return lineGraph;
     }
+    
+    public GraphActionListener getGraphView() {
+        return graphView;
+    }
+    
+    public GraphActionListener getLineGraphView() {
+        return lineView;
+    }
 
     private String lineNodeName(GraphNode graphNode1, GraphNode graphNode2) {
         if (graphNode1.getName().compareTo(graphNode2.getName()) < 0) {
